@@ -23,12 +23,12 @@ Create manifests to read the data.
 ### Gender Recognition
 Run GenderNet.py
 
-
-
 ### Speaker Verification
-
+https://github.com/clovaai/voxceleb_trainer
 
 ### ASR
+Download QuartzNet model from: https://catalog.ngc.nvidia.com/orgs/nvidia/models/nemospeechmodels
+
 
 ### Licence
 This work is licensed under the MIT License.

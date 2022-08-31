@@ -6,9 +6,13 @@ Repository under construction...
 # Installation
 
 ## Requirements
+soundfile, Hydra
 
 
-## INstructions
+## Instructions
+run train.py
+Create manifests to read the data.
+
 
 ## Running example
 
@@ -17,9 +21,14 @@ Repository under construction...
 
 
 ### Gender Recognition
+Run GenderNet.py
+
 
 
 ### Speaker Verification
 
 
 ### ASR
+
+### Licence
+This work is licensed under the MIT License.

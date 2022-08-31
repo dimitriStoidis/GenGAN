@@ -6,7 +6,8 @@ Repository under construction...
 # Installation
 
 ## Requirements
-soundfile, Hydra
+* soundfile
+* Hydra
 
 
 ## Instructions
@@ -24,10 +25,10 @@ Create manifests to read the data.
 Run GenderNet.py
 
 ### Speaker Verification
-https://github.com/clovaai/voxceleb_trainer
+[SpeakerNet](https://github.com/clovaai/voxceleb_trainer)
 
 ### ASR
-Download QuartzNet model from: https://catalog.ngc.nvidia.com/orgs/nvidia/models/nemospeechmodels
+Download QuartzNet model from: [NeMo](https://catalog.ngc.nvidia.com/orgs/nvidia/models/nemospeechmodels)
 
 
 ### Licence

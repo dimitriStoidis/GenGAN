@@ -1,9 +1,10 @@
 # GenGAN
-Generating gender-ambiguous voices for privacy-preserving speech recognition.
+
+## Generating gender-ambiguous voices for privacy-preserving speech recognition.
 
 
-Gender-ambiguous generation is our proposed method for privacy-preserving speech recognition. GenGAN is a generative adversarial network that synthesises speech mel-spectrograms that are able to convey the content information in speech and conceal gender and identity information.
-We provide our pre-trained GenGAN synthesiser and our pre-trained model for gender recognition.
+<p>Gender-ambiguous generation is our proposed method for privacy-preserving speech recognition. GenGAN is a generative adversarial network that synthesises speech mel-spectrograms that are able to convey the content information in speech and conceal gender and identity information.
+We provide our pre-trained GenGAN synthesiser and our pre-trained model for gender recognition.</p>
 
 ![GenGAN pipeline](/gengan_pipeline.jpg)
 
@@ -44,7 +45,8 @@ To train the model run `python train.py --experiment_name trial1`
 
 ### Gender Recognition
 Run `python GenderNet.py`
-<p>load the pre-trained model in `/models/`
+<p>Load the pre-trained model in `/models/model.ckpt-90_GenderNet.pt` for evaluation or train GenderNet from scratch.
+
 
 ### Speaker Verification
 We use the pre-trained SpeakerNet model from here [SpeakerNet](https://github.com/clovaai/voxceleb_trainer) to perform the speaker verification task.
@@ -52,8 +54,9 @@ We use the pre-trained SpeakerNet model from here [SpeakerNet](https://github.co
 ### ASR
 Download QuartzNet model from: [NeMo](https://catalog.ngc.nvidia.com/orgs/nvidia/models/nemospeechmodels)
 
-The work is based on PCMelGAN [paper](https://arxiv.org/abs/2006.09114).
-[PCMelGAN](https://github.com/daverics/pcmelgan)
-
+The work is based on:
+* [PCMelGAN](https://github.com/daverics/pcmelgan)
+* [QuartzNet](https://catalog.ngc.nvidia.com/orgs/nvidia/models/nemospeechmodels)
+* [MelGAN](https://github.com/descriptinc/melgan-neurips)
 ### Licence
 This work is licensed under the MIT License.

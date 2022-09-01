@@ -61,21 +61,19 @@ The work is based on:
 * [MelGAN](https://github.com/descriptinc/melgan-neurips)
 
 ### Cite
-<p>
+```
   @misc{https://doi.org/10.48550/arxiv.2207.01052,
   doi = {10.48550/ARXIV.2207.01052},
   url = {https://arxiv.org/abs/2207.01052},
   author = {Stoidis, Dimitrios and Cavallaro, Andrea},
   title = {Generating gender-ambiguous voices for privacy-preserving speech recognition},
-  
   publisher = {arXiv},
-  
   year = {2022},
-  
   copyright = {Creative Commons Attribution 4.0 International}
 }
-</p>
+```
 Accepted for publication at Interspeech.
+
 ### Contact
 For any enquiries contact dimitrios.stoidis@qmul.ac.uk.
 

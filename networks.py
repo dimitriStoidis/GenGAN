@@ -30,20 +30,15 @@ def double_conv(channels_in, channels_out, kernel_size):
     )
 
 
-class UNet_GenGAN(nn.Module):
-    def __init__(self, channels_in, channels_out, chs=[8, 16, 32, 64, 128], kernel_size = 3, image_width=64, image_height=64, noise_dim=65, activation='sigmoid', nb_classes=2, embedding_dim=16, use_cond=True):
+class UNet_(nn.Module):
+    def __init__(self, channels_in, channels_out, chs=[8, 16, 32, 64, 128], kernel_size=3, image_width=64, image_height=64, noise_dim=65, activation='sigmoid'):
         super().__init__()
-        self.use_cond = use_cond
         self.width = image_width
         self.height = image_height
         self.activation = activation
-        self.embed_condition = nn.Embedding(nb_classes, embedding_dim)
 
-        # noise projection layer
+        # modified noise projection layer
         self.project_noise = nn.Linear(noise_dim, noise_dim)
-
-        # condition projection layer
-        self.project_cond = nn.Linear(embedding_dim, image_width//16 * image_height//16)
 
         self.dconv_down1 = double_conv(channels_in, chs[0], kernel_size)
         self.pool_down1 = nn.MaxPool2d(2, stride=2)
@@ -60,12 +55,8 @@ class UNet_GenGAN(nn.Module):
 
         self.dconv_down5 = double_conv(chs[3], chs[4], kernel_size)
 
-        if self.use_cond:
-            self.dconv_up5 = double_conv(chs[4]+chs[4]+1+chs[3], chs[3], kernel_size)
-        else:
-            # --------------------------------------------------------------------
-            # modified dconvup5
-            self.dconv_up5 = double_conv(chs[4]+chs[3]+1, chs[3], kernel_size)
+        # modified deconvolution to insert noise
+        self.dconv_up5 = double_conv(chs[4]+chs[3]+1, chs[3], kernel_size)
         self.dconv_up4 = double_conv(chs[3]+chs[2], chs[2], kernel_size)
         self.dconv_up3 = double_conv(chs[2]+chs[1], chs[1], kernel_size)
         self.dconv_up2 = double_conv(chs[1]+chs[0], chs[0], kernel_size)
@@ -73,7 +64,7 @@ class UNet_GenGAN(nn.Module):
 
         self.pad = nn.ConstantPad2d((1,0,0,0),0)
 
-    def forward(self, x, z, cond):
+    def forward(self, x, z):
 
         conv1_down = self.dconv_down1(x)
         pool1 = self.pool_down1(conv1_down)
@@ -90,12 +81,8 @@ class UNet_GenGAN(nn.Module):
         conv5_down = self.dconv_down5(pool4)
         z = z.reshape(x.shape[0], 1, conv5_down.shape[-2], conv5_down.shape[-1])
         noise = self.project_noise(z)
-        cond_emb = self.embed_condition(cond)
-        cond_emb = self.project_cond(cond_emb).reshape(x.shape[0], 1, 5, 2)
-        if self.use_cond:
-            conv5_down = torch.cat((conv5_down, noise, cond_emb), dim=1)
-        else:
-            conv5_down = torch.cat((conv5_down, noise), dim=1)
+
+        conv5_down = torch.cat((conv5_down, noise), dim=1)
 
         conv5_up = F.interpolate(conv5_down, scale_factor=2, mode='nearest')
 
@@ -121,7 +108,6 @@ class UNet_GenGAN(nn.Module):
         conv1_up = self.dconv_up1(conv2_up)
 
         out = torch.tanh(conv1_up)
-        # breakpoint()
         return out
 
 

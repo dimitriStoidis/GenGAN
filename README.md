@@ -31,7 +31,7 @@ We use the clean-100 partition of the [LibriSpeech dataset](https://www.openslr.
 0. Clone repository
 `git clone https://github.com/dimitriStoidis/GenGAN.git`
 
-1. Create the json manifests to read the data
+1. Create the json manifests to read the data in `/data_files` folder
 * speaker and gender labels
 * path-to-audio file 
 
@@ -42,6 +42,7 @@ To train the model run `python train.py --experiment_name trial1`
 
 ## Evaluation
 
+Load the pre-trained GenGAN model in `/models` folder for speech synthesis.
 
 ### Gender Recognition
 Run `python GenderNet.py`

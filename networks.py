@@ -37,8 +37,9 @@ class UNet_GenGAN(nn.Module):
         self.width = image_width
         self.height = image_height
         self.activation = activation
+        self.embed_condition = nn.Embedding(nb_classes, embedding_dim)
 
-        # modified noise projection layer
+        # noise projection layer
         self.project_noise = nn.Linear(noise_dim, noise_dim)
 
         # condition projection layer
@@ -59,8 +60,12 @@ class UNet_GenGAN(nn.Module):
 
         self.dconv_down5 = double_conv(chs[3], chs[4], kernel_size)
 
-        # modified deconvolution to insert noise
-        self.dconv_up5 = double_conv(chs[4]+chs[3]+1, chs[3], kernel_size)
+        if self.use_cond:
+            self.dconv_up5 = double_conv(chs[4]+chs[4]+1+chs[3], chs[3], kernel_size)
+        else:
+            # --------------------------------------------------------------------
+            # modified dconvup5
+            self.dconv_up5 = double_conv(chs[4]+chs[3]+1, chs[3], kernel_size)
         self.dconv_up4 = double_conv(chs[3]+chs[2], chs[2], kernel_size)
         self.dconv_up3 = double_conv(chs[2]+chs[1], chs[1], kernel_size)
         self.dconv_up2 = double_conv(chs[1]+chs[0], chs[0], kernel_size)
@@ -85,8 +90,12 @@ class UNet_GenGAN(nn.Module):
         conv5_down = self.dconv_down5(pool4)
         z = z.reshape(x.shape[0], 1, conv5_down.shape[-2], conv5_down.shape[-1])
         noise = self.project_noise(z)
-
-        conv5_down = torch.cat((conv5_down, noise), dim=1)
+        cond_emb = self.embed_condition(cond)
+        cond_emb = self.project_cond(cond_emb).reshape(x.shape[0], 1, 5, 2)
+        if self.use_cond:
+            conv5_down = torch.cat((conv5_down, noise, cond_emb), dim=1)
+        else:
+            conv5_down = torch.cat((conv5_down, noise), dim=1)
 
         conv5_up = F.interpolate(conv5_down, scale_factor=2, mode='nearest')
 

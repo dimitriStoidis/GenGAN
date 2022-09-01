@@ -46,7 +46,8 @@ Load the pre-trained GenGAN model in `/models` folder for speech synthesis.
 
 ### Gender Recognition
 Run `python GenderNet.py`
-<p>Load the pre-trained model in `/models/model.ckpt-90_GenderNet.pt` for evaluation or train GenderNet from scratch.
+
+Load the pre-trained model in `/models/model.ckpt-90_GenderNet.pt` for evaluation or train GenderNet from scratch.
 
 
 ### Speaker Verification

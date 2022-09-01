@@ -6,8 +6,6 @@ Generating gender-ambiguous voices for privacy-preserving speech recognition.
 
 =================================================================================
 
-We train and test the model on the [[LibriSpeech dataset](https://www.openslr.org/12)] (train-clean-100 and test-clean-100).
-
 # Installation
 
 ## Requirements
@@ -21,18 +19,21 @@ We train and test the model on the [[LibriSpeech dataset](https://www.openslr.or
 * tqdm
 
 
+## Download data
+We train and test the model on the [[LibriSpeech dataset](https://www.openslr.org/12)] (train-clean-100 and test-clean-100).
+
 
 ## Instructions
-To train the model run `python train.py --experiment_name`
-<p>Create manifests to read the data.</p>
+
 0. Clone repository
 1. Create manifests to read the data
-2. 
+2. run train and test scripts
 
 
 
 ## Running example
 
+To train the model run `python train.py --experiment_name trial1`
 
 ## Evaluation
 
@@ -47,7 +48,8 @@ We use the pre-trained SpeakerNet model from here [SpeakerNet](https://github.co
 ### ASR
 Download QuartzNet model from: [NeMo](https://catalog.ngc.nvidia.com/orgs/nvidia/models/nemospeechmodels)
 
-
+The work is based on PCMelGAN []
+[PCMelGAN](https://github.com/daverics/pcmelgan)
 
 ### Licence
 This work is licensed under the MIT License.

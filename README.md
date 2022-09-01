@@ -1,6 +1,9 @@
 # GenGAN
 Generating gender-ambiguous voices for privacy-preserving speech recognition.
 
+
+![Alt text](/gengan_pipeline.jpg)
+
 =================================================================================
 
 We train and test the model on the [[LibriSpeech dataset](https://www.openslr.org/12)] (train-clean-100 and test-clean-100).
@@ -20,9 +23,12 @@ We train and test the model on the [[LibriSpeech dataset](https://www.openslr.or
 
 
 ## Instructions
-To train the model run <code> `python train.py --experiment_name`</code>
+To train the model run `python train.py --experiment_name`
 <p>Create manifests to read the data.</p>
 0. Clone repository
+1. Create manifests to read the data
+2. 
+
 
 
 ## Running example
@@ -32,7 +38,7 @@ To train the model run <code> `python train.py --experiment_name`</code>
 
 
 ### Gender Recognition
-Run <code>`python GenderNet.py`</code>
+Run `python GenderNet.py`
 <p>load the pre-trained model </p>
 
 ### Speaker Verification

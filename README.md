@@ -42,7 +42,7 @@ To train the model run `python train.py --experiment_name trial1`
 
 ## Evaluation
 
-Load the pre-trained GenGAN model in `/models` folder for speech synthesis.
+Load the pre-trained GenGAN model in `/models/netG_epoch_25.pt` folder for speech synthesis.
 
 ### Gender Recognition
 Run `python GenderNet.py`

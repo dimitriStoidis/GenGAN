@@ -99,12 +99,14 @@ def main():
 
     z = torch.randn(spectrograms.shape[0], noise_dim * 5).to(device)
     gen_secret = Variable(LongTensor(np.random.choice([1.0], spectrograms.shape[0]))).to(device)
-    neutral = gen_secret * np.random.normal(0.5, math.sqrt(0.05))
-    generated_neutral = netG(spectrograms, z, neutral).detach()
+    y_n = gen_secret * np.random.normal(0.5, math.sqrt(0.05))
+    # Input to Generator
+    generated_neutral = netG(spectrograms, z, y_n).detach()
 
-    print("Saving audio..")
+    # spectrogram inversion
     generated_neutral = torch.squeeze(generated_neutral, 1).to(device) * 3 * stds.to(device) + means.to(device)
     inverted_neutral = Mel2Audio(generated_neutral).squeeze().detach().cpu()
+    print("Saving audio..")
     f_name_neutral_audio = os.path.join(run_dir, audio_file + '_transformed.wav')
     save_sample(f_name_neutral_audio, args.sampling_rate, inverted_neutral[:dur])
 

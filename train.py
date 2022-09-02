@@ -11,7 +11,7 @@ import argparse
 import yaml
 from pathlib import Path
 import time
-from networks import UNet_GenGAN, AlexNet_Discriminator
+from networks import UNetFilter, AlexNet_Discriminator
 from torch.autograd import Variable
 import glob
 from modules import MelGAN_Generator, Audio2Mel
@@ -40,7 +40,6 @@ def parse_args():
     parser.add_argument("--G_lr", type = float, default = 3e-4)
     parser.add_argument("--D_lr", type = float, default = 3e-4)
     parser.add_argument("--utility_loss", type = bool, default = False)
-
     # Model and loss parameters
     parser.add_argument("--loss", type = str, default = None)
     parser.add_argument("--eps", type = float, default=10)
@@ -52,6 +51,9 @@ def parse_args():
     parser.add_argument("--seeds", type = int, nargs = '+', default =123)
     parser.add_argument("--num_runs", type = int, default = 1)
     parser.add_argument("--n_completed_runs", type = int, default = 1)
+    parser.add_argument("--num_genders", type=int, default=2)
+    parser.add_argument("--batch_size", type=int, default=24)
+    parser.add_argument("--noise_dim", type=int, default=65)
 
     args = parser.parse_args()
     return args
@@ -76,10 +78,10 @@ def main():
         os.mkdir(experiment_dir)
 
     # hyper parameters
-    num_genders = 2
+    num_genders = args.num_genders
     eps = args.eps
-    batch_train = 24
-    noise_dim = 65
+    batch_train = args.batch_size
+    noise_dim = args.noise_dim
     manualSeed = 1038
     set_seed(manualSeed)
 
@@ -146,7 +148,7 @@ def main():
             yaml.dump({'Run number' : run}, f)
 
         # Load trainable models GenGAN generator and discriminator
-        netG = UNet_(1, 1, chs=[8, 16, 32, 64, 128],
+        netG = UNetFilter(1, 1, chs=[8, 16, 32, 64, 128],
                           kernel_size=args.filter_receptive_field,
                           image_width=32, image_height=80, noise_dim=noise_dim,
                           nb_classes=2, embedding_dim=16, use_cond = False).to(device)
@@ -185,7 +187,7 @@ def main():
             epoch_start = time.time()
             netG.train()
             netD.train()
-            for i, (x, _, gender, utterance) in tqdm(enumerate(train_loader)):
+            for i, (x, gender) in tqdm(enumerate(train_loader)):
 
                 gender = gender.to(device)
                 x = torch.unsqueeze(x, 1)
@@ -215,7 +217,7 @@ def main():
 
                 G_distortion_loss_accum += generator_distortion_loss.item()
                 # La loss predicted gender close to 0.5
-                generator_adversary_loss = adversarial_loss(pred_secret, gender.long().to(device))  
+                generator_adversary_loss = adversarial_loss(pred_secret, gender.long().to(device))
 
                 G_adversary_loss_accum += generator_adversary_loss.item()
 
@@ -243,12 +245,6 @@ def main():
                 netD_loss.backward()
                 optD.step()
 
-                # ----------------------------------------------
-                #   Compute accuracies
-                # ----------------------------------------------
-                # D accuracy on original gender in real and generated (fake) data,
-                # and sampled gender in generated (fake) data
-
                 if i % 100 == 0:
                     print(" \n G {:5.5f} L_d: {:5.5f} Dfake_Yn {:5.5f} \n "
                           "D {:5.5f} D real {:5.5f} D fake {:5.5f}\n --[{:5.2f}]%".
@@ -257,36 +253,6 @@ def main():
             print('\n__________________________________________________________________________')
             print("Epoch {} completed | Time: {:5.2f} s "
                   .format(epoch+1, time.time() - epoch_start))
-
-            # ----------------------------------------------
-            #   Save test samples
-            # ----------------------------------------------
-
-            if (epoch + 1) % args.save_interval == 0:
-                print('\n__________________________________________________________________________')
-                print("Saving audio and spectrogram samples.....")
-                netG.eval()
-                for i, (x, _, gender, utterance) in tqdm(enumerate(save_loader)):
-                    x = torch.unsqueeze(x, 1)
-                    spectrograms = fft(x).detach()
-                    spectrograms, means, stds = preprocess_spectrograms(spectrograms)
-                    spectrograms = torch.unsqueeze(spectrograms, 1).to(device)
-
-                    z2 = torch.randn(spectrograms.shape[0], noise_dim*5).to(device)
-                    gen_secret = Variable(LongTensor(np.random.choice([1.0], spectrograms.shape[0]))).to(device)
-                    neutral = gen_secret * np.random.normal(0.5, math.sqrt(0.05))
-
-                    generated_neutral = netG(spectrograms, z2, neutral).detach()
-
-                    # Predict gender
-                    generated_neutral = torch.squeeze(generated_neutral, 1).to(device) * 3 * stds.to(device) + means.to(device)
-                    inverted_neutral = Mel2Audio(generated_neutral).squeeze().detach().cpu()
-                    f_name_neutral_audio = os.path.join(example_audio_dir, utterance[0] + '.wav'.
-                                                        format(epoch + 1))
-                    save_sample(f_name_neutral_audio, 16000, inverted_neutral)
-
-                print("Success!")
-                print('__________________________________________________________________________\n')
 
             if (epoch + 1) % args.checkpoint_interval == 0:
                 save_epoch = epoch + 1

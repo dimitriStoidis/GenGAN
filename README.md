@@ -30,13 +30,13 @@ We use the clean-100 partition of the [LibriSpeech dataset](https://www.openslr.
 0. Clone repository
 `git clone https://github.com/dimitriStoidis/GenGAN.git`
 
-1. Create the json manifests to read the data in `/data_files` folder
-* speaker and gender labels
-* path-to-audio file 
-
-2. Download MelGAN neural vocoder and add to path
+1. Download MelGAN neural vocoder and add to `models` directory
 `https://github.com/descriptinc/melgan-neurips/tree/master/models`
 
+For training:
+2. Create the json manifests to read the data in `/data_files` folder
+* speaker and gender labels
+* path-to-audio file 
 
 ## Running example
 
@@ -47,7 +47,7 @@ To train the model run `python train.py --trial model1 --epochs 25 --batch_size 
 Load the pre-trained GenGAN model in `/models/netG_epoch_25.pt` folder for speech synthesis.
 
 ### Demo
-Run `python demo.py` to try GenGAN on your audio samples.
+Clone the repository and run `python demo.py` to try GenGAN on your audio samples.
 The output is a `.wav` file saved in `/audio_` directory.
 
 You will need to download and add to path the [multi-speaker](https://github.com/descriptinc/melgan-neurips/tree/master/models) pre-trained MelGAN model.

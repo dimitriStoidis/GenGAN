@@ -39,7 +39,7 @@ and install the required packages
 2. Download MelGAN neural vocoder and add to `models` directory
 `https://github.com/descriptinc/melgan-neurips/tree/master/models`
 
-For training:
+For training:</br>
 3. Create the json manifests to read the data in `/data_files` folder
 * speaker and gender labels
 * path-to-audio file 

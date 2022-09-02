@@ -27,11 +27,11 @@ We use the clean-100 partition of the [LibriSpeech dataset](https://www.openslr.
 
 ## Instructions
 
-0. Clone repository
+0. Clone repository</br>
 `git clone https://github.com/dimitriStoidis/GenGAN.git`
 
 1. From a terminal or an Anaconda Prompt, go to project's root directory
-and run:
+and run:</br>
 `conda create gengan` </br>
 `conda activate gengan` </br>
 and install the required packages
@@ -53,7 +53,7 @@ To train the model run `python train.py --trial model1 --epochs 25 --batch_size 
 Load the pre-trained GenGAN model in `/models/netG_epoch_25.pt` folder for speech synthesis.
 
 ### Demo
-Clone the repository and run `python demo.py` to try GenGAN on your audio samples.
+Clone the repository and run `python demo.py` to try GenGAN on your audio samples.</br>
 The output is a `.wav` file saved in `/audio_` directory.
 
 You will need to download and add to path the [multi-speaker](https://github.com/descriptinc/melgan-neurips/tree/master/models) pre-trained MelGAN model.

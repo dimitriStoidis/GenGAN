@@ -30,15 +30,18 @@ def double_conv(channels_in, channels_out, kernel_size):
     )
 
 
-class UNet_(nn.Module):
-    def __init__(self, channels_in, channels_out, chs=[8, 16, 32, 64, 128], kernel_size=3, image_width=64, image_height=64, noise_dim=65, activation='sigmoid'):
+class UNetFilter(nn.Module):
+    def __init__(self, channels_in, channels_out, chs=[8, 16, 32, 64, 128], kernel_size = 3, image_width=64, image_height=64, noise_dim=65, activation='sigmoid', nb_classes=2, embedding_dim=16, use_cond=True):
         super().__init__()
+        self.use_cond = use_cond
         self.width = image_width
         self.height = image_height
         self.activation = activation
-
-        # modified noise projection layer
+        self.embed_condition = nn.Embedding(nb_classes, embedding_dim)  # (not used)
+        # noise projection layer
         self.project_noise = nn.Linear(noise_dim, noise_dim)
+        # condition projection layer (not used)
+        self.project_cond = nn.Linear(embedding_dim, image_width//16 * image_height//16)
 
         self.dconv_down1 = double_conv(channels_in, chs[0], kernel_size)
         self.pool_down1 = nn.MaxPool2d(2, stride=2)
@@ -50,21 +53,22 @@ class UNet_(nn.Module):
         self.pool_down3 = nn.MaxPool2d(2, stride=2)
 
         self.dconv_down4 = double_conv(chs[2], chs[3], kernel_size)
-
         self.pool_down4 = nn.MaxPool2d(2, stride=2)
 
         self.dconv_down5 = double_conv(chs[3], chs[4], kernel_size)
+        self.dconv_up5 = double_conv(chs[4] + chs[3] + 1, chs[3], kernel_size)
 
-        # modified deconvolution to insert noise
-        self.dconv_up5 = double_conv(chs[4]+chs[3]+1, chs[3], kernel_size)
         self.dconv_up4 = double_conv(chs[3]+chs[2], chs[2], kernel_size)
+
         self.dconv_up3 = double_conv(chs[2]+chs[1], chs[1], kernel_size)
+
         self.dconv_up2 = double_conv(chs[1]+chs[0], chs[0], kernel_size)
+
         self.dconv_up1 = nn.Conv2d(chs[0], channels_out, kernel_size=1)
 
         self.pad = nn.ConstantPad2d((1,0,0,0),0)
 
-    def forward(self, x, z):
+    def forward(self, x, z, __):
 
         conv1_down = self.dconv_down1(x)
         pool1 = self.pool_down1(conv1_down)
@@ -79,35 +83,34 @@ class UNet_(nn.Module):
         pool4 = self.pool_down4(conv4_down)
 
         conv5_down = self.dconv_down5(pool4)
-        z = z.reshape(x.shape[0], 1, conv5_down.shape[-2], conv5_down.shape[-1])
+
+        z = z.reshape(x.shape[0], 1, 5, conv5_down.shape[-1])
         noise = self.project_noise(z)
 
         conv5_down = torch.cat((conv5_down, noise), dim=1)
-
         conv5_up = F.interpolate(conv5_down, scale_factor=2, mode='nearest')
-
         conv5_up = torch.cat((conv4_down, conv5_up), dim=1)
 
         conv5_up = self.dconv_up5(conv5_up)
-
         conv4_up = F.interpolate(conv5_up, scale_factor=2, mode='nearest')
         conv4_up = torch.cat((conv3_down, conv4_up), dim=1)
-        conv4_up = self.dconv_up4(conv4_up)
 
+        conv4_up = self.dconv_up4(conv4_up)
         conv3_up = F.interpolate(conv4_up, scale_factor=2, mode='nearest')
         conv3_up = self.pad(conv3_up)
-
         conv3_up = torch.cat((conv2_down, conv3_up), dim=1)
-        conv3_up = self.dconv_up3(conv3_up)
 
+        conv3_up = self.dconv_up3(conv3_up)
         conv2_up = F.interpolate(conv3_up, scale_factor=2, mode='nearest')
         conv2_up = self.pad(conv2_up)
         conv2_up = torch.cat((conv1_down, conv2_up), dim=1)
+
         conv2_up = self.dconv_up2(conv2_up)
 
         conv1_up = self.dconv_up1(conv2_up)
 
         out = torch.tanh(conv1_up)
+
         return out
 
 

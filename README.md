@@ -34,14 +34,23 @@ We use the clean-100 partition of the [LibriSpeech dataset](https://www.openslr.
 * speaker and gender labels
 * path-to-audio file 
 
+2. Download MelGAN neural vocoder and add to path
+`https://github.com/descriptinc/melgan-neurips/tree/master/models`
+
 
 ## Running example
 
-To train the model run `python train.py --experiment_name trial1`
+To train the model run `python train.py --trial model1 --epochs 25 --batch_size 25`
 
 ## Evaluation
 
 Load the pre-trained GenGAN model in `/models/netG_epoch_25.pt` folder for speech synthesis.
+
+### Demo
+Run `python demo.py` to try GenGAN on your audio samples.
+The output is a `.wav` file saved in `/audio_` directory.
+
+You will need to download and add to path the [multi-speaker](https://github.com/descriptinc/melgan-neurips/tree/master/models) pre-trained MelGAN model.
 
 ### Gender Recognition
 Run `python GenderNet.py`

@@ -53,7 +53,9 @@ class Audio2Mel(nn.Module):
 
     def forward(self, audio):
         p = (self.n_fft - self.hop_length) // 2
-        audio = F.pad(audio, (p, p), "reflect").squeeze(1)
+        # audio = F.pad(audio, (p, p), "reflect").squeeze(1)
+        audio = F.pad(audio, (p, p), "constant").squeeze(1)
+
         fft = torch.stft(
             audio,
             n_fft=self.n_fft,

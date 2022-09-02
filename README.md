@@ -30,11 +30,17 @@ We use the clean-100 partition of the [LibriSpeech dataset](https://www.openslr.
 0. Clone repository
 `git clone https://github.com/dimitriStoidis/GenGAN.git`
 
-1. Download MelGAN neural vocoder and add to `models` directory
+1. From a terminal or an Anaconda Prompt, go to project's root directory
+and run:
+`conda create gengan`
+`conda activate gengan`
+and install the required packages
+
+2. Download MelGAN neural vocoder and add to `models` directory
 `https://github.com/descriptinc/melgan-neurips/tree/master/models`
 
 For training:
-2. Create the json manifests to read the data in `/data_files` folder
+3. Create the json manifests to read the data in `/data_files` folder
 * speaker and gender labels
 * path-to-audio file 
 

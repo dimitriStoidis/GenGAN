@@ -32,8 +32,8 @@ We use the clean-100 partition of the [LibriSpeech dataset](https://www.openslr.
 
 1. From a terminal or an Anaconda Prompt, go to project's root directory
 and run:
-`conda create gengan`
-`conda activate gengan`
+`conda create gengan` </br>
+`conda activate gengan` </br>
 and install the required packages
 
 2. Download MelGAN neural vocoder and add to `models` directory

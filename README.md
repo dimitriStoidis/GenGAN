@@ -2,7 +2,7 @@
 # Generating gender-ambiguous voices for privacy-preserving speech recognition.
 
 
-<p>Gender-ambiguous generation is our proposed method for privacy-preserving speech recognition. GenGAN is a generative adversarial network that synthesises speech mel-spectrograms that are able to convey the content information in speech and conceal gender and identity information.
+<p>Gender-ambiguous speech synthesis is our proposed method for privacy-preserving speech recognition. GenGAN is a generative adversarial network that synthesises mel-spectrograms that are able to convey the content information in speech and conceal gender and identity information.
 We provide our pre-trained GenGAN synthesiser and our pre-trained model for gender recognition.</p>
 
 ![GenGAN pipeline](/gengan_pipeline.jpg)
@@ -12,12 +12,11 @@ We provide our pre-trained GenGAN synthesiser and our pre-trained model for gend
 # Installation
 
 ## Requirements
-* Python = 3.7.4
-* PyTorch = 1.2.0
-* hydra-core = 1.1.1
-* Soundfile = 0.10.3
-* torchaudio = 0.10.0
-* librosa = 0.7.2
+* Python >= 3.7.4
+* PyTorch >= 1.2.0
+* hydra-core >= 1.1.1
+* Soundfile >= 0.10.3
+* librosa >= 0.7.2
 
 
 
@@ -46,22 +45,26 @@ For training:</br>
 
 ## Running example
 
-To train the model run `python train.py --trial model1 --epochs 25 --batch_size 25`
+To train the model run: </br>
+`python train.py --trial model1 --epochs 25 --batch_size 25`
 
 ## Evaluation
 
-Load the pre-trained GenGAN model in `/models/netG_epoch_25.pt` folder for speech synthesis.
+Load the pre-trained GenGAN model from the checkpoint: </br>
+ `/models/netG_epoch_25.pt` folder for speech synthesis.
 
 ### Demo
-Clone the repository and run `python demo.py` to try GenGAN on your audio samples.</br>
+Clone the repository and run: </br>
+`python demo.py` to try-out GenGAN on your audio samples.</br>
 The output is a `.wav` file saved in `/audio_` directory.
 
 You will need to download and add to path the [multi-speaker](https://github.com/descriptinc/melgan-neurips/tree/master/models) pre-trained MelGAN model.
 
 ### Gender Recognition
-Run `python GenderNet.py`
+Run `python GenderNet.py`</br>
 
-Load the pre-trained model in `/models/model.ckpt-90_GenderNet.pt` for evaluation or train GenderNet from scratch.
+Load the pre-trained model from the checkpopint: </br>
+`/models/model.ckpt-90_GenderNet.pt` to evaluate or train GenderNet from scratch.
 
 
 ### Speaker Verification
@@ -70,6 +73,7 @@ We use the pre-trained SpeakerNet model from here [SpeakerNet](https://github.co
 ### Automatic Speech Recognition
 Download QuartzNet model from: [NeMo](https://catalog.ngc.nvidia.com/orgs/nvidia/models/nemospeechmodels)
 
+### References
 The work is based on:
 * [PCMelGAN](https://github.com/daverics/pcmelgan)
 * [QuartzNet](https://catalog.ngc.nvidia.com/orgs/nvidia/models/nemospeechmodels)

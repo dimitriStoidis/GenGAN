@@ -26,20 +26,20 @@ We use the clean-100 partition of the [LibriSpeech dataset](https://www.openslr.
 
 ## Instructions
 
-0. Clone repository</br>
+1. Clone repository</br>
 `git clone https://github.com/dimitriStoidis/GenGAN.git`
 
-1. From a terminal or an Anaconda Prompt, go to project's root directory
+2. From a terminal or an Anaconda Prompt, go to project's root directory
 and run:</br>
 `conda create gengan` </br>
 `conda activate gengan` </br>
 and install the required packages
 
-2. Download MelGAN neural vocoder and add to `models` directory
-`https://github.com/descriptinc/melgan-neurips/tree/master/models`
+3. Download and add to path: </br>
+the [multi-speaker](https://github.com/descriptinc/melgan-neurips/tree/master/models) pre-trained MelGAN vocoder model.
 
 For training:</br>
-3. Create the json manifests to read the data in `/data_files` folder
+4. Create the json manifests to read the data in `/data_files` folder
 * speaker and gender labels
 * path-to-audio file 
 
@@ -57,13 +57,13 @@ To try-out GenGAN on your audio samples:
 2. Load the pre-trained GenGAN model from the checkpoint: </br>
  `/models/netG_epoch_25.pt` folder for speech synthesis.
 
-3. Run:</br>
+3. Download and add to path: </br>
+the [multi-speaker](https://github.com/descriptinc/melgan-neurips/tree/master/models) pre-trained MelGAN vocoder model.
+
+
+4. Run:</br>
 `python demo.py --path_to_audio ./audio/xyz.wav --path_to_models ./models` </br>
 The output is a `.wav` file saved in `/audio_` directory.
-
-4. Download and add to path:
-the [multi-speaker](https://github.com/descriptinc/melgan-neurips/tree/master/models) pre-trained MelGAN model.
-
 
 ## Evaluation
 

@@ -36,6 +36,8 @@ def parse_args():
     parser.add_argument("--num_runs", type = int, default = 1)
     parser.add_argument("--noise_dim", type=int, default=65)
     parser.add_argument("--max_duration", type=int, default=16.7)
+    parser.add_argument("--path_to_audio", type=int, default='/audio/xyz.wav')
+    parser.add_argument("--path_to_models", type=int, default='/models')
     args = parser.parse_args()
     return args
 
@@ -61,13 +63,13 @@ def main():
     manualSeed = 1038
     max_duration = args.max_duration
     set_seed(manualSeed)
-    audio_path = '/*.wav'
+    audio_path = args.path_to_audio
     audio_file = audio_path.split('.wav')[0].split('/')[-1]
 
     # Load MelGAN vocoder
     fft = Audio2Mel(sampling_rate=args.sampling_rate)
     Mel2Audio = MelGAN_Generator(args.n_mel_channels, args.ngf, args.n_residual_layers).to(device)
-    Mel2Audio.load_state_dict(torch.load('/path-to/models/multi_speaker.pt'))
+    Mel2Audio.load_state_dict(torch.load(args.path_to_models + '/multi_speaker.pt'))
 
     run_dir = os.path.join(root, 'audio_')
     if not os.path.exists(run_dir):
@@ -87,7 +89,7 @@ def main():
     training_objects.sort(key=lambda x: x[0])
 
     # Load from checkpoint
-    netG.load_state_dict(torch.load('/path-to/models/netG_epoch_25.pt'))
+    netG.load_state_dict(torch.load(args.path_to_models + '/netG_epoch_25.pt'))
 
     print("GenGAN synthesis initiated")
     netG.eval()

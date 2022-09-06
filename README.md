@@ -43,28 +43,39 @@ For training:</br>
 * speaker and gender labels
 * path-to-audio file 
 
-## Running example
+## Training example
 
 To train the model run: </br>
 `python train.py --trial model1 --epochs 25 --batch_size 25`
 
-## Evaluation
 
-Load the pre-trained GenGAN model from the checkpoint: </br>
+## Demo
+To try-out GenGAN on your audio samples:
+
+1. Clone the repository </br>
+
+2. Load the pre-trained GenGAN model from the checkpoint: </br>
  `/models/netG_epoch_25.pt` folder for speech synthesis.
 
-### Demo
-Clone the repository and run: </br>
-`python demo.py` to try-out GenGAN on your audio samples.</br>
+3. Run:</br>
+`python demo.py --path_to_audio ./audio/xyz.wav --path_to_models ./models` </br>
 The output is a `.wav` file saved in `/audio_` directory.
 
-You will need to download and add to path the [multi-speaker](https://github.com/descriptinc/melgan-neurips/tree/master/models) pre-trained MelGAN model.
+4. Download and add to path:
+the [multi-speaker](https://github.com/descriptinc/melgan-neurips/tree/master/models) pre-trained MelGAN model.
+
+
+## Evaluation
 
 ### Gender Recognition
-Run `python GenderNet.py`</br>
+To perform gender recognition on your saved samples:
 
-Load the pre-trained model from the checkpopint: </br>
-`/models/model.ckpt-90_GenderNet.pt` to evaluate or train GenderNet from scratch.
+1. Load the pre-trained model from the checkpopint: </br>
+`/models/model.ckpt-90_GenderNet.pt`
+
+2. Run: </br>
+`python GenderNet.py --batch_size bs --set test`</br>
+
 
 
 ### Speaker Verification

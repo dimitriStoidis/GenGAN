@@ -1,0 +1,244 @@
+
+
+<section class="content__section" id="about" xmlns="http://www.w3.org/1999/html">
+        <h1 align="center">
+          <a>Generating Gender-ambiguous Voices for Privacy-preserving Speech Recognition</a>
+        </h1>
+          <h3 align="center">
+              <a>Dimitrios Stoidis and Andrea Cavallaro</a>
+          </h3>
+          <h3 align="center">
+              <a> in Proceedings Interspeech 2022 </a>
+          </h3>
+
+          <h5>
+              <p style="text-align:center;"> Centre for Intelligent Sensing</p>
+              <p style="text-align:center;"> Queen Mary University of London</p>
+
+
+          </h5>
+         <img src="QMlogo.png" align="center" style="width:200px;height:50px;">
+          <img src="CISlogo.png" align="right" style="width:250px;height:50px;">
+
+
+        <!--<img src="GENVAE.png" align="center" style="width:300px;height:400">-->
+
+          <h3>
+              <a> Abstract:</a>
+          </h3>
+
+
+        <p>
+        Our voice encodes a uniquely identifiable pattern which can be used to infer private attributes,
+            such as gender or identity, that an individual might wish not to reveal when using a speech
+            recognition service. To prevent attribute inference attacks alongside speech recognition tasks,
+            we present a generative adversarial network, GenGAN, that synthesises voices that conceal the
+            gender or identity of a speaker. The proposed network includes a generator with a U-Net architecture
+            that learns to fool a discriminator. We condition the generator only on gender information and use an
+            adversarial loss between signal distortion and privacy preservation. We show that GenGAN improves the
+            trade-off between privacy and utility compared to privacy-preserving representation learning methods
+            that consider gender information as a sensitive attribute to protect.
+
+        </p>
+
+          <emph>View full paper on Arxiv: <a href="https://arxiv.org/pdf/2207.01052.pdf">[here]</a></emph><br/>
+         <emph>ISCA Interspeech: <a href="https://www.isca-speech.org/archive/pdfs/interspeech_2022/stoidis22_interspeech.pdf">[here]</a></emph>
+
+      </section>
+
+      <hr class="hr--large">
+
+      <section class="content__section" id="getting-started">
+        <h2>
+          <a>Audio Samples</a>
+        </h2>
+
+        <p>
+          Samples used from LibriSpeech dataset
+          <a href="https://www.openslr.org/12">train-clean 100</a>:
+        </p>
+
+
+      <h5>
+         Identity: 61, Gender: Male
+      </h5>
+
+       <p>Reference transcription:<br/>
+           <i>"."</i>
+       </p>
+      <figure style="center">
+        <figcaption>Original</figcaption>
+            <audio controls
+                src="61-70968-0008.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+      <figure>
+        <figcaption>PCMelGAN</figcaption>
+            <audio
+                controls
+                src="61-70968-0008_PCMelgan.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+         <figure>
+        <figcaption>GenGAN</figcaption>
+            <audio
+                controls
+                src="61-70968-0008_GenGan.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+    <hr class="hr--large">
+
+      <h5>
+         Identity: 121, Gender: Female
+      </h5>
+
+           <i>""</i>
+
+         <figure>
+        <figcaption>Original</figcaption>
+            <audio
+                controls
+                src="121-127105-0011.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+
+       <figure>
+        <figcaption>PCMelGAN</figcaption>
+            <audio
+                controls
+                src="121-127105-0011PCMelGAN.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+       <figure>
+        <figcaption>GenGAN</figcaption>
+            <audio
+                controls
+                src="121-127105-0011_GenGan.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+      <hr class="hr--large">
+
+      <h5>
+         Identity: 260, Gender: Male
+      </h5>
+
+
+         <p>Reference transcription:<br/>
+           <i>""</i>
+       </p>
+
+      <figure>
+        <figcaption>Original</figcaption>
+            <audio
+                controls
+                src="260-123286-0008.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+        <figure>
+        <figcaption>PCMelGAN</figcaption>
+            <audio
+                controls
+                src="260-123286-0008_PCMelgan.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+       <figure>
+        <figcaption>GenGAN</figcaption>
+            <audio
+                controls
+                src="260-123286-0008_GenGan.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+
+
+      <hr class="hr--large">
+
+      <h5>
+         Identity: 260, Gender: Male
+      </h5>
+
+
+         <p>Reference transcription:<br/>
+           <i>""</i>
+       </p>
+
+
+      <figure>
+        <figcaption>Original</figcaption>
+            <audio
+                controls
+                src="4507-16021-0031.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+        <figure>
+        <figcaption>PCMelGAN</figcaption>
+            <audio
+                controls
+                src="4507-16021-0031_PCMelGAN.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+       <figure>
+        <figcaption>GenGAN</figcaption>
+            <audio
+                controls
+                src="4507-16021-0031_GenGan.wav">
+                    Your browser does not support the
+                    <code>audio</code> element.
+            </audio>
+        </figure>
+
+
+
+    <h4>Youtube videos</h4>
+          <emph>Centre for Intelligent Sensing <a href="https://www.youtube.com/watch?v=y0SIca1JmKA">[here]</a></emph>
+
+
+    <h4>Cite as</h4>
+          <p>
+              Cite as: Stoidis, D., Cavallaro, A. (2022) Generating gender-ambiguous voices for privacy-preserving speech recognition.<br/>
+              Proc. Interspeech 2022, 4237-4241, doi: 10.21437/Interspeech.2022-11322
+}
+          </p>
+
+          <p>@inproceedings{stoidis22_interspeech,<br/>
+                author={Dimitrios Stoidis and Andrea Cavallaro},<br/>
+                title={{Generating gender-ambiguous voices for privacy-preserving speech recognition}},<br/>
+                year=2022,<br/>
+                booktitle={Proc. Interspeech 2022},<br/>
+                pages={4237--4241},<br/>
+                doi={10.21437/Interspeech.2022-11322}
+          }</p>
+
+      </section>
